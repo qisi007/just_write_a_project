@@ -44,7 +44,7 @@
     <el-dialog
         v-model="dialogVisible"
         :title="title"
-        width="80%"
+        :width="800"
         :destroy-on-close="true"
     >
         <el-form

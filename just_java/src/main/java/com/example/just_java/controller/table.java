@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class table {
     @RequestMapping("list")
     public static String getTable () {
-        return "成功";
+        return "{ success: true, data: [], code: 200, message: '成功' }";
     }
 
 }

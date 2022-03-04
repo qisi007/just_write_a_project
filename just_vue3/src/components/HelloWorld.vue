@@ -1,6 +1,7 @@
 
 <template>
-    <div class="header">
+<div>
+        <div class="header">
         <el-button type="success" @click="addData">新增</el-button>
 
         <el-form :inline="true" :model="formInline">
@@ -77,14 +78,15 @@
             </span>
         </template>
     </el-dialog>
+</div>
 </template>
 <script setup>
 import { ref, reactive } from "vue";
 import { ElMessageBox } from "element-plus";
-import axios from "axios";
+import http from "../utils/http"
 
-axios.get("http://localhost:10010/table/list").then(res => {
-  console.log(res)
+http.get('/table/list').then( res => {
+    console.log(res,123)
 })
 
 const dialogVisible = ref(false);

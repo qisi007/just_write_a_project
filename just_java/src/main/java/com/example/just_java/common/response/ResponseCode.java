@@ -1,4 +1,4 @@
-package com.example.just_java.common;
+package com.example.just_java.common.response;
 
 
 import lombok.extern.slf4j.Slf4j;

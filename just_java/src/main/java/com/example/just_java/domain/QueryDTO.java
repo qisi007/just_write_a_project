@@ -1,9 +1,8 @@
 package com.example.just_java.domain;
 
-import com.example.just_java.config.PageParam;
 import io.swagger.annotations.ApiModelProperty;
 
-public class QueryDTO extends PageParam {
+public class QueryDTO {
     public String getName() {
         return name;
     }

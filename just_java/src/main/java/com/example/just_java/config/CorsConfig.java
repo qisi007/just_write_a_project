@@ -18,6 +18,7 @@ public class CorsConfig implements javax.servlet.Filter {
         //*号表示对所有请求都允许跨域访问
         res.addHeader("Access-Control-Allow-Origin", "*");
         res.addHeader("Access-Control-Allow-Methods", "*");
+        res.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, client_id, uuid, Authorization");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

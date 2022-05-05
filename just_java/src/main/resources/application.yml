@@ -7,3 +7,7 @@ spring:
     url: jdbc:mysql:///just_sql?serverTimezone=UTC
     username: root
     password: root
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.example.just_java.domain.TableDomain

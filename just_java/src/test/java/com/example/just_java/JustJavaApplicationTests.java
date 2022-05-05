@@ -1,5 +1,6 @@
 package com.example.just_java;
 
+import com.example.just_java.domain.QueryDTO;
 import com.example.just_java.domain.TableDomain;
 import com.example.just_java.mapper.TableMapper;
 import org.junit.jupiter.api.Test;
@@ -15,8 +16,8 @@ class JustJavaApplicationTests {
     private TableMapper tableMapper;
 
     @Test
-    public void testUser () {
-        List<TableDomain> tableDomainList = tableMapper.findAll();
+    public void testUser (QueryDTO queryDTO) {
+        List<TableDomain> tableDomainList = tableMapper.findAll(queryDTO);
 
         System.out.print(tableDomainList.toString());
     }

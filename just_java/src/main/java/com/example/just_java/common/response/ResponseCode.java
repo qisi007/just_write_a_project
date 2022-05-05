@@ -103,14 +103,18 @@ public class ResponseCode {
 
             RESPONSE_CODE_RANGE_MAP.put(clazz, new int[]{start, end});
 
-            Field[] fields = clazz.getFields();
-            if ( fields.length !=0 ) {
-                try {
-                    fields[0].get(clazz);
-                } catch (IllegalArgumentException | IllegalAccessException e) {
-                    log.error("", e);
-                }
-            }
+//            Field[] fields = clazz.getFields();
+//            System.out.print(fields.toString());
+//            System.out.print(clazz);
+//            if ( fields.length !=0 ) {
+//                try {
+//                    fields[0].get(clazz);
+//                } catch (IllegalArgumentException | IllegalAccessException e) {
+//                    log.error("", e);
+//                }
+//            }
+
+
         }
 
         public static void put(ResponseCode codeConst) {

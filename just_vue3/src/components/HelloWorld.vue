@@ -85,7 +85,11 @@ import { ref, reactive } from "vue";
 import { ElMessageBox } from "element-plus";
 import http from "../utils/http"
 
-http.get('/table/list').then( res => {
+http.post('/table/list', {
+    page: 1,
+    size: 20,
+    name: ""
+}).then( res => {
     console.log(res,123)
 })
 

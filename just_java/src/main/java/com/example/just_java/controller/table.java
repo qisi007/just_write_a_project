@@ -6,6 +6,7 @@ import com.example.just_java.common.response.ResponseDTO;
 import com.example.just_java.domain.QueryDTO;
 import com.example.just_java.domain.TableDomain;
 import com.example.just_java.service.TableService;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,7 +25,7 @@ public class table {
     private TableService tableService;
 
     @ApiOperation(value = "获取表格数据")
-    @PostMapping("list")
+    @GetMapping("list")
     @ResponseBody
     public JsonResult getTable (@RequestParam Integer page, @RequestParam Integer size, QueryDTO queryDTO ) {
         Page helper = PageHelper.startPage(page, size);
@@ -35,23 +36,22 @@ public class table {
     @ApiOperation(value = "添加数据")
     @PostMapping("add")
     @ResponseBody
-    public  JsonResult addData ( TableDomain tableDomain ) {
+    public  JsonResult addData ( @RequestBody TableDomain tableDomain ) {
         tableService.addData(tableDomain);
         return JsonResult.success("添加成功");
     }
 
     @ApiOperation(value = "根据id删除数据")
     @PostMapping("delete")
-    @ResponseBody
     public  JsonResult deleteData ( String id ) {
         tableService.deleteData(id);
         return JsonResult.success("删除成功");
     }
 
-    @ApiOperation(value = "根据id删除数据")
+    @ApiOperation(value = "编辑数据")
     @PostMapping("edit")
     @ResponseBody
-    public  JsonResult editData ( TableDomain tableDomain ) {
+    public  JsonResult editData ( @RequestBody TableDomain tableDomain ) {
         tableService.editData(tableDomain);
         return JsonResult.success("更新成功");
     }

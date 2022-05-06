@@ -26,6 +26,7 @@
     <update id="updateData" parameterType="com.example.just_java.domain.TableDomain">
         UPDATE hero
         <set>
+            name=#{tableDomain.name},
             attribute=#{tableDomain.attribute},
             position=#{tableDomain.position},
             talent=#{tableDomain.talent},

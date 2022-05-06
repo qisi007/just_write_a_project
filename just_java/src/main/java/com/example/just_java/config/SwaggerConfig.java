@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 @EnableSwagger2
 public class SwaggerConfig {
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("考勤管理系统API接口文档")
+        return new ApiInfoBuilder().title("just_write_a_project接口文档")
                 .description("")
                 .version("1.0.0")
                 .build();

@@ -2,11 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.just_java.mapper.TableMapper">
     <select id="findAll" resultType="com.example.just_java.domain.TableDomain">
-        select * from tableTest
+        select * from hero
         <where>
             <if test="queryDTO.name != null and queryDTO.name != ''">
                 name = #{queryDTO.name}
             </if>
         </where>
     </select>
+
+    <insert id="addData" parameterType="com.example.just_java.domain.TableDomain">
+        INSERT INTO hero(id, name, attribute, position, talent, q, w, e, r, skin)
+        VALUES (#{tableDomain.id},#{tableDomain.name},#{tableDomain.attribute},#{tableDomain.position},#{tableDomain.talent},#{tableDomain.q},#{tableDomain.w},#{tableDomain.e},#{tableDomain.r},#{tableDomain.skin})
+    </insert>
+
+    <delete id="deleteData">
+        DELETE FROM hero
+        WHERE
+            <if test="id != null">
+                id = #{id}
+            </if>
+    </delete>
+
+    <update id="updateData" parameterType="com.example.just_java.domain.TableDomain">
+        UPDATE hero
+        <set>
+            attribute=#{tableDomain.attribute},
+            position=#{tableDomain.position},
+            talent=#{tableDomain.talent},
+            q=#{tableDomain.q},
+            w=#{tableDomain.w},
+            e=#{tableDomain.e},
+            r=#{tableDomain.r},
+            skin=#{tableDomain.skin}
+        </set>
+        WHERE
+            id=#{tableDomain.id}
+
+
+    </update>
+
+
 </mapper>

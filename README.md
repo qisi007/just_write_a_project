@@ -19,6 +19,8 @@ npm run dev
 
 >初始化maven依赖
 
+>导入sql
+
 >启动`JustJavaApplication`类
 
 > 浏览器访问swagger地址 `http://localhost:10010/swagger-ui.html`

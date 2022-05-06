@@ -31,4 +31,28 @@ public class table {
         List<TableDomain> tableDomainList = tableService.getTableDate( queryDTO );
         return JsonResult.success("查询成功啊", tableDomainList, helper.getTotal());
     }
+
+    @ApiOperation(value = "添加数据")
+    @PostMapping("add")
+    @ResponseBody
+    public  JsonResult addData ( TableDomain tableDomain ) {
+        tableService.addData(tableDomain);
+        return JsonResult.success("添加成功");
+    }
+
+    @ApiOperation(value = "根据id删除数据")
+    @PostMapping("delete")
+    @ResponseBody
+    public  JsonResult deleteData ( String id ) {
+        tableService.deleteData(id);
+        return JsonResult.success("删除成功");
+    }
+
+    @ApiOperation(value = "根据id删除数据")
+    @PostMapping("edit")
+    @ResponseBody
+    public  JsonResult editData ( TableDomain tableDomain ) {
+        tableService.editData(tableDomain);
+        return JsonResult.success("更新成功");
+    }
 }

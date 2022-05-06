@@ -18,4 +18,10 @@ public class TableService {
     public List<TableDomain> getTableDate (QueryDTO queryDTO ) {
         return tableMapper.findAll(queryDTO);
     }
+
+    public void addData ( TableDomain tableDomain ) { tableMapper.addData(tableDomain);}
+
+    public void deleteData ( String id ) { tableMapper.deleteData(id); }
+
+    public void editData ( TableDomain tableDomain ) { tableMapper.updateData(tableDomain); }
 }

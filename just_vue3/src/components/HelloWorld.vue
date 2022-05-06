@@ -6,10 +6,11 @@
 
         <el-form :inline="true" :model="state.formInline">
             <el-form-item label="姓名：" prop="name">
-                <el-input v-model="state.formInline.name" style="width: 150px"></el-input>
+                <el-input v-model="state.formInline.name" style="width: 150px" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">查询</el-button>
+                <el-button @click="onReset">重置</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -186,7 +187,7 @@ const ruleFormRef = ref(null)
 
 const getTableData = () => {
     state.loading = true
-    HeroApi.getTableList({...state.pageInfo}).then( res => {
+    HeroApi.getTableList({...state.pageInfo, ...state.formInline}).then( res => {
         state.tableData = res.data;
         state.total = res.total;
         state.loading = false
@@ -256,7 +257,12 @@ const submit = async () => {
 }
 
 const onSubmit = () => {
+    getTableData()
+}
 
+const onReset = () => {
+    state.formInline = {}
+    getTableData()
 }
 
 const getDictionary = () => {

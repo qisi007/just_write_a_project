@@ -10,7 +10,8 @@
   "dependencies": {
     "axios": "^0.26.0",
     "element-plus": "^2.0.4",
-    "vue": "^3.2.25"
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.13"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.0",

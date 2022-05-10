@@ -43,6 +43,7 @@ public class table {
 
     @ApiOperation(value = "根据id删除数据")
     @PostMapping("delete")
+    @ResponseBody
     public  JsonResult deleteData ( String id ) {
         tableService.deleteData(id);
         return JsonResult.success("删除成功");

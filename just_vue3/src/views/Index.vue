@@ -208,7 +208,7 @@ const deleteRow = (row) => {
         }).then(() => {
             HeroApi.deleteData(row.id).then( res => {
                 if( res.success ) {
-                    ElMessage(res.message);
+                    ElMessage.success(res.message);
                     getTableData()
                 }
             })
@@ -237,7 +237,7 @@ const submit = async () => {
         if ( state.title == '新增' ) {
             HeroApi.addData(state.ruleForm).then(res => {
                 if( res.success ) {
-                    ElMessage(res.message);
+                    ElMessage.success(res.message);
                     close();
                     getTableData()
                 }
@@ -245,7 +245,7 @@ const submit = async () => {
         } else {
             HeroApi.editData(state.ruleForm).then(res => {
                 if( res.success ) {
-                    ElMessage(res.message);
+                    ElMessage.success(res.message);
                     close();
                     getTableData()
                 }

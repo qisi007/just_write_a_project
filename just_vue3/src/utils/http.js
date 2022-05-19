@@ -9,6 +9,9 @@ import urlConfig from "../config/global";
 const instance = axios.create({
     baseURL: urlConfig.axios.baseURL[process.env.NODE_ENV],
     timeout: urlConfig.axios.timeout,
+    headers: {
+        'Content-Type': 'application/json',
+    }
 })
 
 instance.interceptors.request.use( (config) => {

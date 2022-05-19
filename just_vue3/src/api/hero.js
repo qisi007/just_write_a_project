@@ -10,7 +10,7 @@ export default {
     },
 
     deleteData: ( id ) => {
-        return http.post("/table/delete?id=" + id )
+        return http.post("/table/delete", id)
     },
 
     editData: (params) => {

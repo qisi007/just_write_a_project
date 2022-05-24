@@ -30,8 +30,8 @@ import { useRouter } from 'vue-router'
 
 const state = reactive({
     formModel: {
-        user: '',
-        pass:''
+        user: 'admin',
+        pass:'123456'
     },
     rules: {}
 })
@@ -39,7 +39,7 @@ const state = reactive({
 const router = useRouter()
 
 const submitForm = () => {
-    router.push("/")
+    router.push("/index")
 }
 
 const resetForm = () => {

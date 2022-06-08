@@ -1,314 +1,169 @@
 
 <template>
-<div class="index">
-    <div class="header">
-        <el-button type="success" @click="addData">新增</el-button>
-
-        <el-form :inline="true" :model="state.formInline">
-            <el-form-item label="姓名：" prop="name">
-                <el-input v-model="state.formInline.name" style="width: 150px" clearable></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="onSubmit">查询</el-button>
-                <el-button @click="onReset">重置</el-button>
-            </el-form-item>
-        </el-form>
+    <div class="app-body">
+        <div class="app-body-left">
+            <div class="app-body-left-top">
+                <img src="../assets/images/logo.png" 
+                    :style="{
+                        width: state.isCollapse ? '45px' : '70px',
+                        height: state.isCollapse ? '45px' : '70px',
+                        marginTop: state.isCollapse ? '20px' : '0px',
+                    }"  alt="">
+                <p>后台管理</p>
+            </div>
+            <el-menu
+                default-active="first"
+                class="el-menu-vertical-demo"
+                :collapse="state.isCollapse"
+                :uniqueOpened="true"
+                background-color="#3c3c3c"
+                text-color="#fff"
+                active-text-color="#ffd04b"
+            >
+                <el-menu-item
+                    v-for="(item, index) in state.menuList"
+                    :key="index"
+                    :index="item.index"
+                    @click="handleRouterGo(item)"
+                >
+                    <i :class="item.icon"></i>
+                    <span>{{ item.title }}</span>
+                </el-menu-item>
+            </el-menu>
+        </div>
+        <div class="app-body-right"
+            :style="{
+                left: !state.isCollapse ? '200px': '65px'
+            }">
+            <div class="app-body-right-header">
+                <i class="el-icon-s-fold app-body-right-fold" 
+                    :style="{
+                        transform: state.isCollapse ? 'rotate(-180deg)' : ''
+                    }"
+                    @click="() => state.isCollapse = !state.isCollapse"></i>
+            </div>
+            <el-collapse-transition>
+                <router-view style="flex: 1; margin-top: 10px"></router-view>
+            </el-collapse-transition>
+        </div>
     </div>
-    <div class="table-wrap">
-        <el-table :data="state.tableData" 
-                border 
-                style="width: 100%" 
-                v-loading="state.loading"
-                height="100%">
-            <el-table-column prop="name" label="名称" align="center"/>
-            <el-table-column prop="attribute" label="属性"  align="center">
-                <template #default="{ row }">
-                    {{formatColumn("attributeDict", row.attribute)}}
-                </template>
-            </el-table-column>
-            <el-table-column prop="position" label="位置"  align="center">
-                <template #default="{ row }">
-                    {{formatColumn("positionDict", row.position)}}
-                </template>
-            </el-table-column>
-            <el-table-column prop="talent" label="天赋"  align="center">
-                <template #default="{ row }">
-                    {{formatColumn("talentDict", row.talent)}}
-                </template>
-            </el-table-column>
-            <el-table-column prop="q" label="技能q"  align="center"/>
-            <el-table-column prop="w" label="技能w"  align="center"/>
-            <el-table-column prop="e" label="技能e"  align="center"/>
-            <el-table-column prop="r" label="技能r"  align="center"/>
-            <el-table-column prop="skin" label="皮肤"  align="center"/>
-            <el-table-column label="操作" fixed="right"  width="200">
-                <template #default="{ row }">
-                    <el-button @click="editRow(row)" type="primary">
-                        编辑
-                    </el-button>
-                    <el-button @click="deleteRow(row)" type="danger">
-                        删除
-                    </el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-    </div>
-
-    <el-dialog
-        v-model="state.dialogVisible"
-        :title="state.title"
-        :width="800"
-        :destroy-on-close="true"
-    >
-        <el-form
-            ref="ruleFormRef"
-            :model="state.ruleForm"
-            :rules="state.rules"
-            label-width="120px"
-            class="demo-ruleForm"
-            :size="state.formSize"
-        >
-            <el-form-item label="姓名：" prop="name">
-                <el-input v-model="state.ruleForm.name" placeholder="请输入姓名"></el-input>
-            </el-form-item>
-            <el-form-item label="属性：" prop="attribute">
-                <el-select v-model="state.ruleForm.attribute" style="width: 100%" placeholder="请选择属性">
-                    <el-option
-                        v-for="item in state.attributeDict"
-                        :key="item.code"
-                        :label="item.name"
-                        :value="item.code"
-                        >
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="位置：" prop="position">
-                <el-select v-model="state.ruleForm.position" style="width: 100%" placeholder="请选择位置">
-                    <el-option
-                        v-for="item in state.positionDict"
-                        :key="item.code"
-                        :label="item.name"
-                        :value="item.code"
-                        >
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="天赋：" prop="talent">
-                <el-select v-model="state.ruleForm.talent" filterable  style="width: 100%" placeholder="请选择天赋">
-                    <el-option
-                        v-for="item in state.talentDict"
-                        :key="item.code"
-                        :label="item.name"
-                        :value="item.code"
-                        >
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="技能q：" prop="q">
-                <el-input v-model="state.ruleForm.q" placeholder="请输入技能q"></el-input>
-            </el-form-item>
-            <el-form-item label="技能w：" prop="w">
-                <el-input v-model="state.ruleForm.w" placeholder="请输入技能w"></el-input>
-            </el-form-item>
-            <el-form-item label="技能e：" prop="e">
-                <el-input v-model="state.ruleForm.e" placeholder="请输入技能e"></el-input>
-            </el-form-item>
-            <el-form-item label="技能r：" prop="r">
-                <el-input v-model="state.ruleForm.r" placeholder="请输入技能r"></el-input>
-            </el-form-item>
-            <el-form-item label="皮肤：" prop="skin">
-                <el-input v-model="state.ruleForm.skin" placeholder="请输入皮肤"></el-input>
-            </el-form-item>
-        </el-form>
-        <template #footer>
-            <span class="dialog-footer">
-                <el-button @click="close">取消</el-button>
-                <el-button type="primary" @click="submit">确定</el-button>
-            </span>
-        </template>
-    </el-dialog>
-</div>
 </template>
+
+
 <script setup>
-import { ref, reactive, onMounted } from "vue";
-import { ElMessage, ElMessageBox } from "element-plus";
-import HeroApi from "../api/hero";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
 
 const state = reactive({
-    tableData: [],
-    loading: false,
-    total: 0,
-    pageInfo: {
-        page: 1,
-        size: 10
-    },
-    formInline: {},
-    ruleForm: {},
-    title: "新增",
-    formSize: "",
-    dialogVisible: false,
-    rules: {
-        name: [
-            {
-                required: true,
-                message: "请输入姓名",
-                trigger: "blur",
-            },
-        ],
-        attribute: [
-            {
-                required: true,
-                message: "请选择属性",
-                trigger: "blur",
-            },
-        ],
-        position: [
-            {
-                required: true,
-                message: "请选择位置",
-                trigger: "blur",
-            },
-        ],
-        talent: [
-            {
-                required: true,
-                message: "请输入天赋",
-                trigger: "blur",
-            },
-        ],
- 
-    },
-    attributeDict: [],
-    positionDict: [],
-    talentDict: []
+    isCollapse: false,
+    menuList: [
+        {
+            title: "导航1",
+            index: "first",
+            icon: "el-icon-pie-chart",
+            path: "/index/default",
+        },
+        {
+            title: "导航2",
+            index: "first2",
+            icon: "el-icon-film",
+            path: "/index/test",
+        },
+        {
+            title: "导航3",
+            index: "first3",
+            icon: "el-icon-office-building",
+            path: "/index/login",
+        },
+    ],
 });
 
-const ruleFormRef = ref(null)
+const router = useRouter();
 
-const getTableData = () => {
-    state.loading = true
-    HeroApi.getTableList({...state.pageInfo, ...state.formInline}).then( res => {
-        state.tableData = res.data;
-        state.total = res.total;
-        state.loading = false
-    })
+const handleRouterGo = (item) => {
+    router.push(item.path);
+};
+</script>
+<style lang="less">
+#app,
+body,
+html {
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
-const editRow = (row) => {
-    state.ruleForm = { ...row };
-    state.title = "编辑"
-    open();
-};
+.app-body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
 
-const deleteRow = (row) => {
-    ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-        }).then(() => {
-            HeroApi.deleteData(row.id).then( res => {
-                if( res.success ) {
-                    ElMessage.success(res.message);
-                    getTableData()
-                }
-            })
-          })
-    
-};
+    .app-body-left {
+        display: flex;
+        flex-direction: column;
+        background-color: #3c3c3c;
+        color: #fff;
 
-const addData = () => {
-    state.title = "新增";
-    state.ruleForm = {};
-    open();
-};
+        .app-body-left-top {
+            display: flex;
 
-const open = () => {
-    state.dialogVisible = true;
-};
+            img {
+                width: 70px;
+                height: 70px;
+                margin: 0 10px;
+                transition: all .5s ease;
+            }
 
-const close = () => {
-    state.dialogVisible = false;
-};
-
-const submit = async () => {
-    try {
-        const result = await ruleFormRef.value.validate()
-        if ( !result ) return
-        if ( state.title == '新增' ) {
-            HeroApi.addData(state.ruleForm).then(res => {
-                if( res.success ) {
-                    ElMessage.success(res.message);
-                    close();
-                    getTableData()
-                }
-            })
-        } else {
-            HeroApi.editData(state.ruleForm).then(res => {
-                if( res.success ) {
-                    ElMessage.success(res.message);
-                    close();
-                    getTableData()
-                }
-            })
+            p {
+                font-size: 24px;
+            }
         }
-    } catch(e) {
 
+        .el-menu {
+            border: none;
+        }
+
+        .el-menu--collapse {
+            flex: 1;
+        }
+        .el-menu-vertical-demo:not(.el-menu--collapse) {
+            width: 200px;
+            height: 100%;
+        }
+    }
+
+    .app-body-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        background-color: #fff;
+        transition: all .5s ease;
+
+        .app-body-right-header {
+            height: 50px;
+            // border-bottom: 1px solid rgb(247, 244, 244);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+
+            .app-body-right-fold {
+                cursor: pointer;
+                font-size: 24px;
+                margin-left: 10px;
+                color: #7e7b7b;
+                transition: all .5s ease;
+
+                &:hover {
+                    color: #4c4c4c;
+                    transition: all .5s ease;
+                }
+            }
+        }
     }
 }
 
-const onSubmit = () => {
-    getTableData()
-}
 
-const onReset = () => {
-    state.formInline = {}
-    getTableData()
-}
-
-const getDictionary = () => {
-    HeroApi.getDictionaryByType('attribute').then( res => {
-        state.attributeDict = res.data
-    })
-    HeroApi.getDictionaryByType('position').then( res => {
-        state.positionDict = res.data
-    })
-    HeroApi.getDictionaryByType('talent').then( res => {
-        state.talentDict = res.data
-    })
-}
-
-const formatColumn = ( dict, key ) => {
-    let dictionary = state[dict]
-    if ( !dictionary ) return ""
-    let result = dictionary.find( el => el.code == key )
-    return result ? result.name : ""
-}
-
-onMounted( () => {
-    getTableData()
-    getDictionary()
-})
-
-</script>
-
-<style scoped>
-
-
-.index {
-    display: flex;
-    height: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    flex-direction: column;
-}
-.header {
-    line-height: 50px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.table-wrap {
-    flex: 1;
-}
 </style>
-

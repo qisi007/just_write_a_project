@@ -39,7 +39,7 @@ const state = reactive({
 const router = useRouter()
 
 const submitForm = () => {
-    router.push("/index")
+    router.push("/index/default")
 }
 
 const resetForm = () => {

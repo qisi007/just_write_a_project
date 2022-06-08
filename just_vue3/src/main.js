@@ -11,4 +11,6 @@ for (let iconName in ElIcon){
     app.component(iconName, ElIcon[iconName])
 }
 
+import "./assets/fonts/icon.css"
+
 app.use(ElementPlus).use(router).mount('#app')

@@ -2,10 +2,7 @@
 <template>
     <div class="app-body">
         <div class="app-body-left">
-            <!-- <el-icon @click="() => state.isCollapse = !state.isCollapse">
-            <fold />
-          </el-icon> -->
-
+            
             <el-menu
                 default-active="first"
                 class="el-menu-vertical-demo"
@@ -21,13 +18,26 @@
                     :index="item.index"
                     @click="handleRouterGo(item)"
                 >
+                    <i :class="item.icon"></i>
                     <span>{{ item.title }}</span>
                 </el-menu-item>
             </el-menu>
         </div>
-        <el-collapse-transition>
-            <router-view style="flex: 1"></router-view>
-        </el-collapse-transition>
+        <div class="app-body-right"
+            :style="{
+                left: !state.isCollapse ? '200px': '65px'
+            }">
+            <div class="app-body-right-header">
+                <i class="el-icon-s-fold app-body-right-fold" 
+                    :style="{
+                        transform: state.isCollapse ? 'rotate(-180deg)' : ''
+                    }"
+                    @click="() => state.isCollapse = !state.isCollapse"></i>
+            </div>
+            <el-collapse-transition>
+                <router-view style="flex: 1"></router-view>
+            </el-collapse-transition>
+        </div>
     </div>
 </template>
 
@@ -42,19 +52,39 @@ const state = reactive({
         {
             title: "导航1",
             index: "first",
-            icon: "search",
+            icon: "el-icon-pie-chart",
             path: "/index",
         },
         {
             title: "导航2",
             index: "first2",
-            icon: "search",
+            icon: "el-icon-film",
             path: "/test",
+            childern: [
+                {
+                    title: "导航1",
+                    index: "first",
+                    icon: "el-icon-pie-chart",
+                    path: "/index",
+                },
+                {
+                    title: "导航2",
+                    index: "first2",
+                    icon: "el-icon-film",
+                    path: "/test",
+                },
+                {
+                    title: "导航3",
+                    index: "first3",
+                    icon: "el-icon-office-building",
+                    path: "/login",
+                },
+            ]
         },
         {
             title: "导航3",
             index: "first3",
-            icon: "search",
+            icon: "el-icon-office-building",
             path: "/login",
         },
     ],
@@ -66,7 +96,7 @@ const handleRouterGo = (item) => {
     router.push(item.path);
 };
 </script>
-<style>
+<style lang="less">
 #app,
 body,
 html {
@@ -79,10 +109,50 @@ html {
     display: flex;
     height: 100%;
     width: 100%;
+    position: relative;
+
+    .app-body-left {
+        .el-menu--collapse {
+            height: 100%;
+        }
+        .el-menu-vertical-demo:not(.el-menu--collapse) {
+            width: 200px;
+            height: 100%;
+            position: absolute;
+        }
+    }
+
+    .app-body-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        background-color: #fff;
+        transition: all .5s ease;
+
+        .app-body-right-header {
+            height: 50px;
+            // border-bottom: 1px solid rgb(247, 244, 244);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+
+            .app-body-right-fold {
+                cursor: pointer;
+                font-size: 24px;
+                margin-left: 10px;
+                color: #7e7b7b;
+                transition: all .5s ease;
+
+                &:hover {
+                    color: #4c4c4c;
+                    transition: all .5s ease;
+                }
+            }
+        }
+    }
 }
 
-.app-body-left .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-    height: 100%;
-}
+
 </style>

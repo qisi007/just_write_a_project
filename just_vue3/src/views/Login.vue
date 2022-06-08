@@ -51,7 +51,7 @@ const resetForm = () => {
 <style>
 .login {
     height: 100%;
-    background: url(../assets/login.png) no-repeat center fixed;
+    background: url(../assets/images/login.png) no-repeat center fixed;
     background-size: cover;
     display: flex;
     align-items: center;

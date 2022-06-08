@@ -13,4 +13,4 @@ for (let iconName in ElIcon){
 
 import "./assets/fonts/icon.css"
 
-app.use(ElementPlus).use(router).mount('#app')
+app.use(ElementPlus,  { size: 'medium' }).use(router).mount('#app')

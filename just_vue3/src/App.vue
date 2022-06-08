@@ -2,7 +2,15 @@
 <template>
     <div class="app-body">
         <div class="app-body-left">
-            
+            <div class="app-body-left-top">
+                <img src="./assets/images/logo.png" 
+                    :style="{
+                        width: state.isCollapse ? '45px' : '70px',
+                        height: state.isCollapse ? '45px' : '70px',
+                        marginTop: state.isCollapse ? '20px' : '0px',
+                    }"  alt="">
+                <p>后台管理</p>
+            </div>
             <el-menu
                 default-active="first"
                 class="el-menu-vertical-demo"
@@ -35,7 +43,7 @@
                     @click="() => state.isCollapse = !state.isCollapse"></i>
             </div>
             <el-collapse-transition>
-                <router-view style="flex: 1"></router-view>
+                <router-view style="flex: 1; margin-top: 10px"></router-view>
             </el-collapse-transition>
         </div>
     </div>
@@ -112,13 +120,36 @@ html {
     position: relative;
 
     .app-body-left {
+        display: flex;
+        flex-direction: column;
+        background-color: #3c3c3c;
+        color: #fff;
+
+        .app-body-left-top {
+            display: flex;
+
+            img {
+                width: 70px;
+                height: 70px;
+                margin: 0 10px;
+                transition: all .5s ease;
+            }
+
+            p {
+                font-size: 24px;
+            }
+        }
+
+        .el-menu {
+            border: none;
+        }
+
         .el-menu--collapse {
-            height: 100%;
+            flex: 1;
         }
         .el-menu-vertical-demo:not(.el-menu--collapse) {
             width: 200px;
             height: 100%;
-            position: absolute;
         }
     }
 

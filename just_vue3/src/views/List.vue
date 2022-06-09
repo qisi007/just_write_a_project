@@ -4,7 +4,7 @@
     <div class="header">
         <el-form :inline="true" :model="state.formInline">
             <el-form-item prop="name">
-                <el-input v-model="state.formInline.name" placeholder="姓名" style="width: 150px" clearable></el-input>
+                <el-input v-model="state.formInline.name" placeholder="姓名" style="width: 200px" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button-group>
@@ -16,43 +16,67 @@
         <el-button type="success" @click="addData">新增</el-button>
     </div>
     <div class="table-wrap">
-        <el-table :data="state.tableData" 
-                border 
-                style="width: 100%" 
-                v-loading="state.loading"
-                height="100%">
-            <el-table-column prop="name" label="名称" align="center"/>
-            <el-table-column prop="attribute" label="属性"  align="center">
-                <template #default="{ row }">
-                    {{formatColumn("attributeDict", row.attribute)}}
-                </template>
-            </el-table-column>
-            <el-table-column prop="position" label="位置"  align="center">
-                <template #default="{ row }">
-                    {{formatColumn("positionDict", row.position)}}
-                </template>
-            </el-table-column>
-            <el-table-column prop="talent" label="天赋"  align="center">
-                <template #default="{ row }">
-                    {{formatColumn("talentDict", row.talent)}}
-                </template>
-            </el-table-column>
-            <el-table-column prop="q" label="技能q"  align="center"/>
-            <el-table-column prop="w" label="技能w"  align="center"/>
-            <el-table-column prop="e" label="技能e"  align="center"/>
-            <el-table-column prop="r" label="技能r"  align="center"/>
-            <el-table-column prop="skin" label="皮肤"  align="center"/>
-            <el-table-column label="操作" fixed="right"  width="200">
-                <template #default="{ row }">
-                    <el-button @click="editRow(row)" type="primary">
-                        编辑
-                    </el-button>
-                    <el-button @click="deleteRow(row)" type="danger">
-                        删除
-                    </el-button>
-                </template>
-            </el-table-column>
-        </el-table>
+        <div class="table-box">
+            <el-table :data="state.tableData" 
+                    border 
+                    style="width: 100%" 
+                    v-loading="state.loading"
+                    ref="tableRef"
+                    height="100%"
+                    @selection-change="handleSelectionChange">
+                <el-table-column type="selection" width="55"> </el-table-column>
+                <el-table-column prop="name" label="名称" align="center"/>
+                <el-table-column prop="attribute" label="属性"  align="center">
+                    <template #default="{ row }">
+                        {{formatColumn("attributeDict", row.attribute)}}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="position" label="位置"  align="center">
+                    <template #default="{ row }">
+                        {{formatColumn("positionDict", row.position)}}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="talent" label="天赋"  align="center">
+                    <template #default="{ row }">
+                        {{formatColumn("talentDict", row.talent)}}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="q" label="技能q"  align="center"/>
+                <el-table-column prop="w" label="技能w"  align="center"/>
+                <el-table-column prop="e" label="技能e"  align="center"/>
+                <el-table-column prop="r" label="技能r"  align="center"/>
+                <el-table-column prop="skin" label="皮肤"  align="center"/>
+                <el-table-column label="操作" fixed="right"  width="200">
+                    <template #default="{ row }">
+                        <el-button @click="editRow(row)" type="primary">
+                            编辑
+                        </el-button>
+                        <el-button @click="deleteRow(row)" type="danger">
+                            删除
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
+        <div class="table-bottom">
+            <div>
+                <div class="table-bottom-tip" v-if="state.multipleSelection.length">
+                    <div>当前表格已选择：{{state.multipleSelection.length}}条</div>
+                    <el-button type="text" style="margin-left: 10px" @click="clearSelected">清空</el-button>
+                </div>
+            </div>
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="state.pageInfo.page"
+                :page-sizes="[10, 20, 50, 100]"
+                :page-size="state.pageInfo.size"
+                layout="total, prev, pager, next,sizes,  jumper"
+                background
+                :total="state.total"
+                >
+                </el-pagination>
+        </div>
     </div>
 
     <el-dialog
@@ -181,10 +205,12 @@ const state = reactive({
     },
     attributeDict: [],
     positionDict: [],
-    talentDict: []
+    talentDict: [],
+    multipleSelection : []
 });
 
 const ruleFormRef = ref(null)
+const tableRef = ref(null)
 
 const getTableData = () => {
     state.loading = true
@@ -193,6 +219,16 @@ const getTableData = () => {
         state.total = res.total;
         state.loading = false
     })
+}
+
+const handleSizeChange = ( value ) => {
+    state.pageInfo.size = value
+    getTableData()
+}
+
+const handleCurrentChange = ( value ) => {
+    state.pageInfo.page = value
+    getTableData()
 }
 
 const editRow = (row) => {
@@ -285,6 +321,15 @@ const formatColumn = ( dict, key ) => {
     return result ? result.name : ""
 }
 
+const handleSelectionChange = ( val ) => {
+    state.multipleSelection = val
+}
+
+const clearSelected = () => {
+    state.multipleSelection = []
+    tableRef.value.clearSelection()
+}
+
 onMounted( () => {
     getTableData()
     getDictionary()
@@ -301,6 +346,7 @@ onMounted( () => {
     padding: 10px;
     box-sizing: border-box;
     flex-direction: column;
+    height: calc(100% - 50px);
 }
 .header {
     line-height: 50px;
@@ -309,7 +355,36 @@ onMounted( () => {
 }
 
 .table-wrap {
-    flex: 1;
+    height: calc(100% - 60px);
+    overflow: hidden;
+}
+
+.table-wrap .table-box {
+    height: calc(100% - 50px);
+}
+
+.table-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+/deep/.el-input--suffix .el-input__inner {
+    margin-left: 30px;
+}
+
+.table-bottom-tip {
+    display: flex;
+    font-size: 14px;
+    align-items: center;
+    color: #409eff;
+    background-color: #ecf5ff;
+    padding: 0 15px;
+    border-radius: 3px;
+    border: 1px solid #d9ecff;
+
+
 }
 </style>
 

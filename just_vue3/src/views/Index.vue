@@ -68,7 +68,18 @@
                         </template>
                     </el-dropdown>
                     <div class="cut-vertical"></div>
-                    <div style="font-size: 14px">管理员</div>
+                    <el-dropdown trigger="click">
+                        <p class="el-dropdown-link" style="line-height: 100%; cursor: pointer"> 
+                            <i style="margin-right: 5px" class="el-icon-user"/>管理员</p>
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                            <el-dropdown-item><i class="el-icon-setting"></i>设置</el-dropdown-item>
+                            <el-dropdown-item><i class="el-icon-document"></i>个人信息</el-dropdown-item>
+                            <el-dropdown-item><i class="el-icon-turn-off"></i>修改密码</el-dropdown-item>
+                            <el-dropdown-item><i class="el-icon-switch-button"></i>退出登录</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                    </el-dropdown>
                 </div>
             </div>
                 <router-view style="flex: 1; margin-top: 10px"  v-slot="{ Component }">

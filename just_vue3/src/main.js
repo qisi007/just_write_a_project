@@ -4,6 +4,7 @@ import router from './router/index'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
 const app = createApp(App)
 
 import * as ElIcon from '@element-plus/icons-vue'
@@ -13,4 +14,4 @@ for (let iconName in ElIcon){
 
 import "./assets/fonts/icon.css"
 
-app.use(ElementPlus,  { size: 'medium' }).use(router).mount('#app')
+app.use(ElementPlus,  { size: 'medium', locale }).use(router).mount('#app')

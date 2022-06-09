@@ -67,5 +67,16 @@ html {
     margin: 0;
 }
 
+.cut-vertical {
+    &:after {
+        content: "";
+        width: 1px;
+        height: 15px;
+        background-color: #b6aeae;
+        margin: 0 20px;
+        display: inline-block;
+    }
+}
+
 
 </style>

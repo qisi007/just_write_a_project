@@ -2,17 +2,18 @@
 <template>
 <div class="index">
     <div class="header">
-        <el-button type="success" @click="addData">新增</el-button>
-
         <el-form :inline="true" :model="state.formInline">
-            <el-form-item label="姓名：" prop="name">
-                <el-input v-model="state.formInline.name" style="width: 150px" clearable></el-input>
+            <el-form-item prop="name">
+                <el-input v-model="state.formInline.name" placeholder="姓名" style="width: 150px" clearable></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">查询</el-button>
-                <el-button @click="onReset">重置</el-button>
+                <el-button-group>
+                    <el-button type="primary" @click="onSubmit">查询</el-button>
+                    <el-button @click="onReset">重置</el-button>
+                </el-button-group>
             </el-form-item>
         </el-form>
+        <el-button type="success" @click="addData">新增</el-button>
     </div>
     <div class="table-wrap">
         <el-table :data="state.tableData" 

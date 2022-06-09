@@ -7,9 +7,9 @@
                     :style="{
                         width: state.isCollapse ? '45px' : '70px',
                         height: state.isCollapse ? '45px' : '70px',
-                        marginTop: state.isCollapse ? '20px' : '0px',
+                        marginTop: state.isCollapse ? '10px' : '0px',
                     }"  alt="">
-                <p>后台管理</p>
+                <p>JUST后台管理</p>
             </div>
             <el-menu
                 default-active="first"
@@ -24,10 +24,11 @@
                     v-for="(item, index) in state.menuList"
                     :key="index"
                     :index="item.index"
+                    popper-append-to-body
                     @click="handleRouterGo(item)"
                 >
                     <i :class="item.icon"></i>
-                    <span>{{ item.title }}</span>
+                    <template #title>{{ item.title }}</template>
                 </el-menu-item>
             </el-menu>
         </div>
@@ -40,11 +41,41 @@
                     :style="{
                         transform: state.isCollapse ? 'rotate(-180deg)' : ''
                     }"
+                    :title="state.isCollapse ? '展开菜单' : '收起菜单'"
                     @click="() => state.isCollapse = !state.isCollapse"></i>
+                <div class="app-body-right-header-right">
+                    <el-input :placeholder="state.inputWidth=='100px' ? '传送门' : '搜索导航/内容/按钮/表头'" 
+                            v-model="state.searchContent" 
+                            style="transition: all .5s ease;"
+                            :style="{
+                                width: state.inputWidth
+                            }"
+                            @focus="state.inputWidth='300px'"
+                            @blur="state.inputWidth='100px'">
+                        <template #suffix>
+                            <i class="el-input__icon  el-icon-search"></i>
+                        </template>
+                    </el-input>
+                    <div class="cut-vertical"></div>
+                    <el-dropdown trigger="click">
+                        <p class="el-dropdown-link" style="line-height: 100%; cursor: pointer"> 
+                            <i style="margin-right: 5px" class="el-icon-guide"/>我的足迹</p>
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                            <el-dropdown-item><i class="el-icon-pie-chart"></i> 导航1</el-dropdown-item>
+                            <el-dropdown-item><i class="el-icon-film"></i>导航2</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                    </el-dropdown>
+                    <div class="cut-vertical"></div>
+                    <div style="font-size: 14px">管理员</div>
+                </div>
             </div>
-            <el-collapse-transition>
-                <router-view style="flex: 1; margin-top: 10px"></router-view>
-            </el-collapse-transition>
+                <router-view style="flex: 1; margin-top: 10px"  v-slot="{ Component }">
+                    <el-collapse-transition>
+                        <component :is="Component" />
+                    </el-collapse-transition>
+                </router-view>
         </div>
     </div>
 </template>
@@ -56,6 +87,8 @@ import { useRouter } from "vue-router";
 
 const state = reactive({
     isCollapse: false,
+    searchContent: '',
+    inputWidth: '100px',
     menuList: [
         {
             title: "导航1",
@@ -107,7 +140,7 @@ html {
 
         .app-body-left-top {
             display: flex;
-
+            align-items: center;
             img {
                 width: 70px;
                 height: 70px;
@@ -116,7 +149,7 @@ html {
             }
 
             p {
-                font-size: 24px;
+                font-size: 16px;
             }
         }
 
@@ -144,9 +177,9 @@ html {
 
         .app-body-right-header {
             height: 50px;
-            // border-bottom: 1px solid rgb(247, 244, 244);
             display: flex;
             align-items: center;
+            justify-content: space-between;
             box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
 
             .app-body-right-fold {
@@ -160,6 +193,12 @@ html {
                     color: #4c4c4c;
                     transition: all .5s ease;
                 }
+            }
+            
+            .app-body-right-header-right {
+                display: flex;
+                align-items: center;
+                margin-right: 20px;
             }
         }
     }

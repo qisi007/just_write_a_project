@@ -11,7 +11,8 @@ import * as ElIcon from '@element-plus/icons-vue'
 for (let iconName in ElIcon){
     app.component(iconName, ElIcon[iconName])
 }
-
 import "./assets/fonts/icon.css"
+
+app.config.warnHandler = () => null;
 
 app.use(ElementPlus,  { size: 'medium', locale }).use(router).mount('#app')

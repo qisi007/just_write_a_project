@@ -143,14 +143,20 @@
             <div class="crud-table-body_bottom">
                 <div>
                     <div class="crud-table-body_bottom_tip" v-if="state.multipleSelection.length">
-                        <div>当前表格已选择：{{state.multipleSelection.length}}条</div>
-                        <el-button type="text" style="margin-left: 10px" @click="clearSelected">清空</el-button>
+                        <div :style="{
+                            fontSize: tipFontSize
+                        }">当前表格已选择：{{state.multipleSelection.length}}条</div>
+                        <el-button type="text" 
+                                   style="margin-left: 10px; margin-top: 2px" 
+                                   :size="state.options.size"
+                                   @click="clearSelected">清空</el-button>
                     </div>
                 </div>
                 <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="state.pageInfo.page"
+                    :small="state.options.size == 'small'"
                     :page-sizes="[10, 20, 50, 100]"
                     :page-size="state.pageInfo.size"
                     layout="total, prev, pager, next,sizes,  jumper"
@@ -164,7 +170,7 @@
 </template>
 
 <script setup>
-import { reactive, ref  } from "vue"
+import { reactive, ref, computed  } from "vue"
 const theme = {
     color: 'blue',
     tableHeaderBackground: '#fafafa'
@@ -188,6 +194,11 @@ const state = reactive({
     },
     multipleSelection: [],
     formInline: {}
+})
+
+const tipFontSize = computed( () => {
+    if ( state.options.size == 'small' ) return '13px'
+    return '14px'
 })
 
 const tableRef = ref(null)
@@ -399,7 +410,7 @@ defineExpose({
         }
 
         .crud-table-body_box {
-            height: calc(100% - 135px);
+            height: calc(100% - 150px);
         }
 
         .crud-table-body_bottom {
@@ -410,6 +421,10 @@ defineExpose({
 
             /deep/.el-input--suffix .el-input__inner {
                 margin-left: 30px;
+            }
+
+            /deep/.el-pagination--small .el-select .el-input {
+                width: 120px;
             }
 
             .crud-table-body_bottom_tip {

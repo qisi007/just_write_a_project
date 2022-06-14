@@ -14,7 +14,7 @@ const state = reactive({
     option: {
         data: [],
         border: true,
-        size: '',
+        size: 'small',
         searchItemWidth: 120,
         toolButtonEffect: 'dark',
         toolButtonPlacement: 'top',

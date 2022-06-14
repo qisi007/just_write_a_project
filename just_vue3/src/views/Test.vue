@@ -1,5 +1,8 @@
 <template>
-        <JustCrud :options="state.option" ref="justCurd" @cell-click="selectClick"/>
+    <JustCrud :options="state.option" 
+                ref="justCurd" 
+                @cell-click="selectClick"
+                @clear-selected="clearSelected"/>
 </template>
 <script setup>
 import { ref, reactive } from "vue"
@@ -47,6 +50,10 @@ const selectClick = ( value, value2, value3, value4 ) => {
 
 const handleClick = () => {
     console.log(justCurd.value.toggleAllSelection())
+}
+
+const clearSelected = () => {
+    console.log(123123)
 }
 
 </script>

@@ -1,7 +1,9 @@
 <template>
     <div class="crud-table">
         <div class="crud-table-body">
+            <!-- 工具栏 -->
             <div class="crud-table-body_tool">
+                <!-- 左侧条件搜索 -->
                 <div class="crud-table-body_tool_search">
                     <div class="crud-table-body_tool_search_item" 
                         v-for="(item, index) in 3" 
@@ -19,9 +21,8 @@
                         </el-button-group>
                     </div>
                 </div>
-
+                <!-- 右侧编辑按钮 -->
                 <div class="crud-table-body_tool_edit">
-                    <!-- <el-button type="success" :size="state.options.size" @click="addData">新增</el-button> -->
                     <el-button-group :size="state.options.size"> 
                         <el-tooltip :effect="state.options.toolButtonEffect || 'dark'" content="新增" :placement="state.options.toolButtonPlacement || 'top'">
                             <el-button class="el-icon-plus "></el-button>
@@ -38,16 +39,10 @@
                         <el-tooltip :effect="state.options.toolButtonEffect || 'dark'" content="导出数据" :placement="state.options.toolButtonPlacement || 'top'">
                             <el-button class="el-icon-printer"></el-button>
                         </el-tooltip>
-                        
-                        
-                        
-                        
-                        
-                        
                     </el-button-group>
                 </div>
-
             </div>
+            <!-- 表格 -->
             <div class="crud-table-body_box">
                 <el-table :data="state.tableData" 
                         :height="state.options.height || '100%'"
@@ -84,6 +79,7 @@
                         :tree-props="state.options.treeProps"
                         @select="select"
                         @select-all="selectAll"
+                        @selection-change="selectionChange"
                         @cell-mouse-enter="cellMouseEnter"
                         @cell-mouse-leave="cellMouseLeave"
                         @cell-click="cellClick"
@@ -143,9 +139,10 @@
                     </el-table-column>
                 </el-table>
             </div>
-            <div class="table-bottom">
+            <!-- 表格下方 -->
+            <div class="crud-table-body_bottom">
                 <div>
-                    <div class="table-bottom-tip" v-if="state.multipleSelection.length">
+                    <div class="crud-table-body_bottom_tip" v-if="state.multipleSelection.length">
                         <div>当前表格已选择：{{state.multipleSelection.length}}条</div>
                         <el-button type="text" style="margin-left: 10px" @click="clearSelected">清空</el-button>
                     </div>
@@ -189,7 +186,7 @@ const state = reactive({
         page: 1,
         size: 10
     },
-    multipleSelection : [],
+    multipleSelection: [],
     formInline: {}
 })
 
@@ -209,6 +206,7 @@ const handleCurrentChange = ( value ) => {
 const clearSelected = () => {
     state.multipleSelection = []
     tableRef.value.clearSelection()
+    emit('clear-selected')
 }
 
 
@@ -235,7 +233,9 @@ const emit = defineEmits([
     'filter-change',
     'current-change',
     'header-dragend',
-    'expand-change'
+    'expand-change',
+    'selection-change',
+    'clear-selected'
 ])
 
 
@@ -249,6 +249,10 @@ const select = ( ...arguement ) => {
 }
 const selectAll = ( ...arguement ) => {
     emit('select-all', ...arguement)
+}
+const selectionChange = ( ...arguement ) => {
+    emit('selection-change', ...arguement)
+    state.multipleSelection = [...arguement][0]
 }
 const cellMouseEnter = ( ...arguement ) => {
     emit('cell-mouse-enter', ...arguement)
@@ -396,6 +400,28 @@ defineExpose({
 
         .crud-table-body_box {
             height: calc(100% - 135px);
+        }
+
+        .crud-table-body_bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+
+            /deep/.el-input--suffix .el-input__inner {
+                margin-left: 30px;
+            }
+
+            .crud-table-body_bottom_tip {
+                display: flex;
+                font-size: 14px;
+                align-items: center;
+                color: #409eff;
+                background-color: #ecf5ff;
+                padding: 0 15px;
+                border-radius: 3px;
+                border: 1px solid #d9ecff;
+            }
         }
     }
 }

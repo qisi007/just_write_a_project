@@ -337,7 +337,7 @@ onMounted( () => {
 
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 
 
 .index {
@@ -383,6 +383,8 @@ onMounted( () => {
     padding: 0 15px;
     border-radius: 3px;
     border: 1px solid #d9ecff;
+
+
 }
 </style>
 

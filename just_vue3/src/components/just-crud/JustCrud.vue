@@ -6,37 +6,55 @@
                 <!-- 左侧条件搜索 -->
                 <div class="crud-table-body_tool_search">
                     <div class="crud-table-body_tool_search_item" 
-                        v-for="(item, index) in 3" 
+                        v-for="(item, index) in state.searchOptions" 
                         :key="index" 
                         :style="{
-                            width: state.options.searchItemWidth + 'px'
+                            width: (state.config.searchItemWidth || 200) + 'px'
                         }">
-                        <el-input v-model="state.formInline.name" :size="state.options.size" placeholder="姓名" clearable></el-input>
+                        <el-input v-if="!item.type || item.type=='input'"
+                                 style="width: 100%"
+                                 v-model="state.searchParams[item.prop]" 
+                                 :size="state.config.size" 
+                                 :placeholder="item.placeholder || item.label" 
+                                 :clearable="item.clearable || true"></el-input>
+                        <el-select  v-if="item.type=='select'"
+                                    style="width: 100%"
+                                    v-model="state.searchParams[item.prop]" 
+                                    :placeholder="item.placeholder || item.label"
+                                    :size="state.config.size"
+                                    :clearable="item.clearable || true"  >
+                            <el-option
+                                v-for="option in item.options"
+                                :key="option.value"
+                                :label="option.label"
+                                :value="option.value"
+                            ></el-option>
+                        </el-select>
                     </div>
                     
                     <div class="crud-table-body_tool_search_item">
-                        <el-button-group :size="state.options.size">
-                            <el-button type="primary" @click="onSubmit">查询</el-button>
-                            <el-button @click="onReset">重置</el-button>
+                        <el-button-group :size="state.config.size">
+                            <el-button type="primary" @click="handleSubmit">查询</el-button>
+                            <el-button @click="handleReset">重置</el-button>
                         </el-button-group>
                     </div>
                 </div>
                 <!-- 右侧编辑按钮 -->
                 <div class="crud-table-body_tool_edit">
-                    <el-button-group :size="state.options.size"> 
-                        <el-tooltip :effect="state.options.toolButtonEffect || 'dark'" content="新增" :placement="state.options.toolButtonPlacement || 'top'">
+                    <el-button-group :size="state.config.size"> 
+                        <el-tooltip :effect="state.config.toolButtonEffect || 'dark'" content="新增" :placement="state.config.toolButtonPlacement || 'top'">
                             <el-button class="el-icon-plus "></el-button>
                         </el-tooltip>
-                        <el-tooltip :effect="state.options.toolButtonEffect || 'dark'" content="批量删除" :placement="state.options.toolButtonPlacement || 'top'">
+                        <el-tooltip :effect="state.config.toolButtonEffect || 'dark'" content="批量删除" :placement="state.config.toolButtonPlacement || 'top'">
                             <el-button class="el-icon-delete"></el-button>
                         </el-tooltip>
-                        <el-tooltip :effect="state.options.toolButtonEffect || 'dark'" content="刷新表格" :placement="state.options.toolButtonPlacement || 'top'">
+                        <el-tooltip :effect="state.config.toolButtonEffect || 'dark'" content="刷新表格" :placement="state.config.toolButtonPlacement || 'top'">
                             <el-button class="el-icon-refresh"></el-button>
                         </el-tooltip>
-                        <el-tooltip :effect="state.options.toolButtonEffect || 'dark'" content="自定义表头" :placement="state.options.toolButtonPlacement || 'top'">
+                        <el-tooltip :effect="state.config.toolButtonEffect || 'dark'" content="自定义表头" :placement="state.config.toolButtonPlacement || 'top'">
                             <el-button class="el-icon-film"></el-button>
                         </el-tooltip>
-                        <el-tooltip :effect="state.options.toolButtonEffect || 'dark'" content="导出数据" :placement="state.options.toolButtonPlacement || 'top'">
+                        <el-tooltip :effect="state.config.toolButtonEffect || 'dark'" content="导出数据" :placement="state.config.toolButtonPlacement || 'top'">
                             <el-button class="el-icon-printer"></el-button>
                         </el-tooltip>
                     </el-button-group>
@@ -45,38 +63,38 @@
             <!-- 表格 -->
             <div class="crud-table-body_box">
                 <el-table :data="state.tableData" 
-                        :height="state.options.height || '100%'"
-                        :max-height="state.options.maxHeight"
-                        :stripe="state.options.stripe"
-                        :border="state.options.border || true"
-                        :size="state.options.size"
-                        :fit="state.options.fit"
-                        :show-header="state.options.showheader"
-                        :highlight-current-row="state.options.highlightCurrentRow"
-                        :current-row-key="state.options.currentRowKey"
-                        :row-class-name="state.options.rowClassName"
-                        :row-style="state.options.rowStyle"
-                        :cell-class-name="state.options.cellClassName"
-                        :cell-style="state.options.cellStyle"
-                        :header-row-class-name="state.options.headerRowClassName"
-                        :header-row-style="state.options.headerRowStyle"
-                        :header-cell-class-name="state.options.headerCellClassName"
-                        :header-cell-style="state.options.headerCellStyle"
-                        :row-key="state.options.rowKey"
-                        :empty-text="state.options.emptyText"
-                        :default-expand-all="state.options.defaultExpandAll"
-                        :default-sort="state.options.defaultSort"
-                        :tooltip-effect="state.options.tooltipEffect"
-                        :tooltip="state.options.tooltip"
-                        :show-summary="state.options.showSummary"
-                        :sum-text="state.options.sumText"
-                        :summary-method="state.options.summaryMethod"
-                        :span-method="state.options.spanMethod"
-                        :select-on-indeterminate="state.options.selectOnIndeterminate"
-                        :indent="state.options.indent"
-                        :lazy="state.options.lazy"
-                        :load="state.options.load"
-                        :tree-props="state.options.treeProps"
+                        :height="state.config.height || '100%'"
+                        :max-height="state.config.maxHeight"
+                        :stripe="state.config.stripe"
+                        :border="state.config.border || true"
+                        :size="state.config.size"
+                        :fit="state.config.fit"
+                        :show-header="state.config.showheader"
+                        :highlight-current-row="state.config.highlightCurrentRow"
+                        :current-row-key="state.config.currentRowKey"
+                        :row-class-name="state.config.rowClassName"
+                        :row-style="state.config.rowStyle"
+                        :cell-class-name="state.config.cellClassName"
+                        :cell-style="state.config.cellStyle"
+                        :header-row-class-name="state.config.headerRowClassName"
+                        :header-row-style="state.config.headerRowStyle"
+                        :header-cell-class-name="state.config.headerCellClassName"
+                        :header-cell-style="state.config.headerCellStyle"
+                        :row-key="state.config.rowKey"
+                        :empty-text="state.config.emptyText"
+                        :default-expand-all="state.config.defaultExpandAll"
+                        :default-sort="state.config.defaultSort"
+                        :tooltip-effect="state.config.tooltipEffect"
+                        :tooltip="state.config.tooltip"
+                        :show-summary="state.config.showSummary"
+                        :sum-text="state.config.sumText"
+                        :summary-method="state.config.summaryMethod"
+                        :span-method="state.config.spanMethod"
+                        :select-on-indeterminate="state.config.selectOnIndeterminate"
+                        :indent="state.config.indent"
+                        :lazy="state.config.lazy"
+                        :load="state.config.load"
+                        :tree-props="state.config.treeProps"
                         @select="select"
                         @select-all="selectAll"
                         @selection-change="selectionChange"
@@ -129,10 +147,10 @@
 
                     <el-table-column label="操作" fixed="right"  width="200">
                         <template #default="{ row }">
-                            <el-button :size="state.options.size" @click="editRow(row)" type="primary">
+                            <el-button :size="state.config.size" @click="editRow(row)" type="primary">
                                 编辑
                             </el-button>
-                            <el-button :size="state.options.size" @click="deleteRow(row)" type="danger">
+                            <el-button :size="state.config.size" @click="deleteRow(row)" type="danger">
                                 删除
                             </el-button>
                         </template>
@@ -148,7 +166,7 @@
                         }">当前表格已选择：{{state.multipleSelection.length}}条</div>
                         <el-button type="text" 
                                    style="margin-left: 10px; margin-top: 2px" 
-                                   :size="state.options.size"
+                                   :size="state.config.size"
                                    @click="clearSelected">清空</el-button>
                     </div>
                 </div>
@@ -156,7 +174,7 @@
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="state.pageInfo.page"
-                    :small="state.options.size == 'small'"
+                    :small="state.config.size == 'small'"
                     :page-sizes="[10, 20, 50, 100]"
                     :page-size="state.pageInfo.size"
                     layout="total, prev, pager, next,sizes,  jumper"
@@ -178,33 +196,53 @@ const theme = {
 
 
 const props = defineProps({
-    options: Object
+    config: Object,
+    data: Array
 })
 
 const state = reactive({
-    options: {},
+    config: {},
     columns: [],
-    tableData: [
-        {name: '张三'}, {name: 'lisi'}
-    ],
+    tableData: [],
     total: 0,
     pageInfo: {
         page: 1,
         size: 10
     },
     multipleSelection: [],
-    formInline: {}
+    searchParams: {},
+    searchOptions: []
 })
 
 const tipFontSize = computed( () => {
-    if ( state.options.size == 'small' ) return '13px'
+    if ( state.config.size == 'small' ) return '13px'
     return '14px'
 })
 
 const tableRef = ref(null)
+state.config = props.config
+const columnsFormat = props.config.columns.map( el => {
+    if ( el.type == 'select' ) {
+        let keyConfig = el.optionProps || { label: 'label', value: 'value' }
+        el.options = el.options.map( i => {
+            return {
+                label: i[keyConfig.label],
+                value: i[keyConfig.value],
+            }
+        })
+    }
+    return el
+})
 
-state.options = props.options
-state.columns = props.options.columns
+
+state.columns = columnsFormat
+state.tableData = props.data
+state.total = props.config.total
+state.pageInfo = props.config.pageInfo
+theme.tableHeaderBackground = props.config.tableHeaderBackground || '#fafafa'
+state.searchOptions = state.columns.filter( el => el.search)
+
+console.log(state.searchOptions)
 
 const handleSizeChange = ( value ) => {
     state.pageInfo.size = value
@@ -214,11 +252,21 @@ const handleCurrentChange = ( value ) => {
     state.pageInfo.page = value
 }
 
+const handleSubmit = () => {
+    console.log(state.searchParams)
+}
+
+const handleReset = () => {
+    state.searchParams = {}
+}
+
 const clearSelected = () => {
     state.multipleSelection = []
     tableRef.value.clearSelection()
     emit('clear-selected')
 }
+
+
 
 
 /**
@@ -443,8 +491,7 @@ defineExpose({
 
 </style>
 <style lang="less">
-
-.el-table__header-wrapper tr .el-table__cell {
+.crud-table .el-table__header-wrapper tr .el-table__cell {
     background-color: v-bind('theme.tableHeaderBackground')!important;
 }
 </style>

@@ -4,41 +4,10 @@
             <!-- 工具栏 -->
             <div class="crud-table-body_tool">
                 <!-- 左侧条件搜索 -->
-                <div class="crud-table-body_tool_search">
-                    <div class="crud-table-body_tool_search_item" 
-                        v-for="(item, index) in state.searchOptions" 
-                        :key="index" 
-                        :style="{
-                            width: (state.config.searchItemWidth || 200) + 'px'
-                        }">
-                        <el-input v-if="!item.type || item.type=='input'"
-                                 style="width: 100%"
-                                 v-model="state.searchParams[item.prop]" 
-                                 :size="state.config.size" 
-                                 :placeholder="item.placeholder || item.label" 
-                                 :clearable="item.clearable || true"></el-input>
-                        <el-select  v-if="item.type=='select'"
-                                    style="width: 100%"
-                                    v-model="state.searchParams[item.prop]" 
-                                    :placeholder="item.placeholder || item.label"
-                                    :size="state.config.size"
-                                    :clearable="item.clearable || true"  >
-                            <el-option
-                                v-for="option in item.options"
-                                :key="option.value"
-                                :label="option.label"
-                                :value="option.value"
-                            ></el-option>
-                        </el-select>
-                    </div>
-                    
-                    <div class="crud-table-body_tool_search_item">
-                        <el-button-group :size="state.config.size">
-                            <el-button type="primary" @click="handleSubmit">查询</el-button>
-                            <el-button @click="handleReset">重置</el-button>
-                        </el-button-group>
-                    </div>
-                </div>
+                <JustCrudSearch :config="props.config" 
+                                :searchOptions="state.searchOptions" 
+                                @on-submit="handleSubmit"
+                                @on-reset="handleReset"/>
                 <!-- 右侧编辑按钮 -->
                 <div class="crud-table-body_tool_edit">
                     <el-button-group :size="state.config.size"> 
@@ -189,6 +158,7 @@
 
 <script setup>
 import { reactive, ref, computed  } from "vue"
+import JustCrudSearch from "./JustCrudSearch.vue"
 const theme = {
     color: 'blue',
     tableHeaderBackground: '#fafafa'
@@ -252,8 +222,8 @@ const handleCurrentChange = ( value ) => {
     state.pageInfo.page = value
 }
 
-const handleSubmit = () => {
-    console.log(state.searchParams)
+const handleSubmit = ( value ) => {
+    console.log(value)
 }
 
 const handleReset = () => {
@@ -421,74 +391,7 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-.crud-table {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    padding: 10px;
-    box-sizing: border-box;
-
-    .crud-table-body {
-        flex: 1;
-        overflow: hidden;
-
-        .crud-table-body_tool {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-
-            .crud-table-body_tool_search {
-                display: flex;
-                align-items: center;
-                flex-wrap: wrap;
-
-                .crud-table-body_tool_search_item {
-                    margin-right: 5px;
-                    margin-bottom: 8px;
-                }
-            }
-
-            .crud-table-body_tool_edit {
-                .el-button  {
-                    font-weight: 600;
-                }
-
-            }
-        }
-
-        .crud-table-body_box {
-            height: calc(100% - 150px);
-        }
-
-        .crud-table-body_bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 50px;
-
-            /deep/.el-input--suffix .el-input__inner {
-                margin-left: 30px;
-            }
-
-            /deep/.el-pagination--small .el-select .el-input {
-                width: 120px;
-            }
-
-            .crud-table-body_bottom_tip {
-                display: flex;
-                font-size: 14px;
-                align-items: center;
-                color: #409eff;
-                background-color: #ecf5ff;
-                padding: 0 15px;
-                border-radius: 3px;
-                border: 1px solid #d9ecff;
-            }
-        }
-    }
-}
-
+    @import url(./just-crud.less);
 </style>
 <style lang="less">
 .crud-table .el-table__header-wrapper tr .el-table__cell {

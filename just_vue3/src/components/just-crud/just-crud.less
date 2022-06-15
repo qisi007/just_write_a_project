@@ -1,0 +1,51 @@
+.crud-table {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
+
+    .crud-table-body {
+        flex: 1;
+        overflow: hidden;
+
+        .crud-table-body_tool {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            
+        }
+
+        .crud-table-body_box {
+            height: calc(100% - 150px);
+        }
+
+        .crud-table-body_bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+
+            /deep/.el-input--suffix .el-input__inner {
+                margin-left: 30px;
+            }
+
+            /deep/.el-pagination--small .el-select .el-input {
+                width: 120px;
+            }
+
+            .crud-table-body_bottom_tip {
+                display: flex;
+                font-size: 14px;
+                align-items: center;
+                color: #409eff;
+                background-color: #ecf5ff;
+                padding: 0 15px;
+                border-radius: 3px;
+                border: 1px solid #d9ecff;
+            }
+        }
+    }
+}

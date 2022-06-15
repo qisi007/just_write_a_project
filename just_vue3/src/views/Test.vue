@@ -52,7 +52,6 @@ const state = reactive({
       {
         prop: "age",
         label: "年龄",
-        search: true,
       },
       {
         prop: "sex",
@@ -79,6 +78,12 @@ const state = reactive({
         prop: "age",
         label: "地址",
       },
+      {
+        prop: 'date',
+        label: '出生年月',
+        search: true,
+        type: 'date'
+      }
     ],
   },
 });

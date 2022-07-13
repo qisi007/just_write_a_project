@@ -4,7 +4,7 @@
             <!-- 工具栏 -->
             <div class="crud-table-body_tool">
                 <!-- 左侧条件搜索 -->
-                <JustCrudSearch :config="props.config" 
+                <just-crud-search :config="props.config" 
                                 :searchOptions="state.searchOptions" 
                                 @on-submit="handleSubmit"
                                 @on-reset="handleReset"/>
@@ -12,13 +12,13 @@
                 <div class="crud-table-body_tool_edit">
                     <el-button-group :size="state.config.size"> 
                         <el-tooltip :effect="state.config.toolButtonEffect || 'dark'" content="新增" :placement="state.config.toolButtonPlacement || 'top'">
-                            <el-button class="el-icon-plus "></el-button>
+                            <el-button class="el-icon-plus" @click="onOpenAddModel"></el-button>
                         </el-tooltip>
                         <el-tooltip :effect="state.config.toolButtonEffect || 'dark'" content="批量删除" :placement="state.config.toolButtonPlacement || 'top'">
-                            <el-button class="el-icon-delete"></el-button>
+                            <el-button class="el-icon-delete" @click="onDeleteBatch"></el-button>
                         </el-tooltip>
                         <el-tooltip :effect="state.config.toolButtonEffect || 'dark'" content="刷新表格" :placement="state.config.toolButtonPlacement || 'top'">
-                            <el-button class="el-icon-refresh"></el-button>
+                            <el-button class="el-icon-refresh" @click="onRefresh"></el-button>
                         </el-tooltip>
                         <el-tooltip :effect="state.config.toolButtonEffect || 'dark'" content="自定义表头" :placement="state.config.toolButtonPlacement || 'top'">
                             <el-button class="el-icon-film"></el-button>
@@ -140,6 +140,7 @@
                     </div>
                 </div>
                 <el-pagination
+                    v-if="state.config.pageShow != false"
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="state.pageInfo.page"
@@ -153,17 +154,21 @@
                     </el-pagination>
             </div>
         </div>
+
+        <just-crud-form-model ref="JustCrudFormModelRef"></just-crud-form-model>
     </div>
 </template>
 
 <script setup>
 import { reactive, ref, computed  } from "vue"
 import JustCrudSearch from "./JustCrudSearch.vue"
+import JustCrudFormModel from "./JustCrudFormModel.vue"
+import { ElMessage } from 'element-plus'
+
 const theme = {
     color: 'blue',
     tableHeaderBackground: '#fafafa'
 }
-
 
 const props = defineProps({
     config: Object,
@@ -183,6 +188,8 @@ const state = reactive({
     searchParams: {},
     searchOptions: []
 })
+
+const JustCrudFormModelRef = ref(null)
 
 const tipFontSize = computed( () => {
     if ( state.config.size == 'small' ) return '13px'
@@ -222,18 +229,10 @@ const handleCurrentChange = ( value ) => {
     state.pageInfo.page = value
 }
 
-const handleSubmit = ( value ) => {
-    console.log(value)
-}
 
-const handleReset = () => {
-    state.searchParams = {}
-}
 
-const clearSelected = () => {
-    state.multipleSelection = []
-    tableRef.value.clearSelection()
-    emit('clear-selected')
+const onOpenAddModel = () => {
+    JustCrudFormModelRef.value.open()
 }
 
 
@@ -264,7 +263,11 @@ const emit = defineEmits([
     'header-dragend',
     'expand-change',
     'selection-change',
-    'clear-selected'
+    'clear-selected',
+    'on-submit',
+    'on-reset',
+    'on-delete-batch',
+    'on-refresh'
 ])
 
 
@@ -327,6 +330,32 @@ const headerDragend = ( ...arguement ) => {
 }
 const expandChange = ( ...arguement ) => {
     emit('expand-change', ...arguement)
+}
+
+const handleSubmit = ( value ) => {
+    emit('on-submit', value)
+}
+
+const handleReset = () => {
+    emit('on-reset')
+}
+
+const clearSelected = () => {
+    state.multipleSelection = []
+    tableRef.value.clearSelection()
+    emit('clear-selected')
+}
+
+const onDeleteBatch = () => {
+    if ( state.multipleSelection.length == 0 ) {
+        ElMessage.warning('您还没有选择数据！')
+        return
+    }
+    emit('on-delete-batch', state.multipleSelection)
+}
+
+const onRefresh = () => {
+    emit('on-refresh')
 }
 
 /**

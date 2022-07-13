@@ -30,6 +30,7 @@ const state = reactive({
     toolButtonPlacement: "top",
     // tableHeaderBackground: 'red',
     total: 2,
+    // pageShow: false,
     pageInfo: {
       page: 1,
       size: 10,

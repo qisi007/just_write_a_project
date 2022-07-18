@@ -5,7 +5,7 @@
 >下载依赖
 
 ```
-npm i
+npm install
 ```
 
 >运行

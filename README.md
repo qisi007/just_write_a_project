@@ -11,7 +11,7 @@ npm i
 >运行
 
 ``` 
-npm run dev
+npm run server
 ```
 >浏览器访问 ` http://localhost:8999/`
 

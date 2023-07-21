@@ -1,4 +1,4 @@
-package com.example.just_java.domain;
+package com.just.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 

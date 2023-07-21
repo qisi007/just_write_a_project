@@ -5,13 +5,12 @@
     ref="justCurd"
     @cell-click="selectClick"
     @clear-selected="clearSelected"
+    @on-submit="handleSubmit"
   />
 </template>
 <script setup>
 import { ref, reactive } from "vue";
 import JustCrud from "../components/just-crud/index";
-
-const justCurd = ref(null);
 
 const state = reactive({
   data: [
@@ -37,7 +36,7 @@ const state = reactive({
     },
     columns: [
       {
-        type: "selection",
+        type: "selection"
       },
       {
         type: "index",
@@ -101,6 +100,10 @@ const handleClick = () => {
 const clearSelected = () => {
   // console.log(123123)
 };
+
+const handleSubmit = ( value ) => {
+  console.log("父组件", value)
+}
 </script>
 
 

@@ -1,4 +1,4 @@
-package com.example.just_java.common.response;
+package com.just.common.response;
 
 public class LoginResponseCodeConst extends ResponseCode {
     public static final LoginResponseCodeConst LOGIN_ERROR = new LoginResponseCodeConst(1001, "您还未登录或登录失效，请重新登录！");

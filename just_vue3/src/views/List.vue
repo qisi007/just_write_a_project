@@ -24,7 +24,7 @@
                     ref="tableRef"
                     height="100%"
                     @selection-change="handleSelectionChange">
-                <el-table-column type="selection" width="55"> </el-table-column>
+                <el-table-column type="selection" width="40"> </el-table-column>
                 <el-table-column prop="name" label="名称" align="center"/>
                 <el-table-column prop="attribute" label="属性"  align="center">
                     <template #default="{ row }">

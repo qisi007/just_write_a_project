@@ -1,9 +1,8 @@
-package com.example.just_java.service;
+package com.just.service;
 
-import com.example.just_java.common.response.ResponseDTO;
-import com.example.just_java.domain.QueryDTO;
-import com.example.just_java.domain.TableDomain;
-import com.example.just_java.mapper.TableMapper;
+import com.just.domain.QueryDTO;
+import com.just.domain.TableDomain;
+import com.just.mapper.TableMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

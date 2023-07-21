@@ -1,8 +1,8 @@
-package com.example.just_java.controller;
+package com.just.controller;
 
-import com.example.just_java.common.response.JsonResult;
-import com.example.just_java.domain.DictionaryDomain;
-import com.example.just_java.service.DictionaryService;
+import com.just.common.response.JsonResult;
+import com.just.domain.DictionaryDomain;
+import com.just.service.DictionaryService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

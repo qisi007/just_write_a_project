@@ -1,18 +1,14 @@
-package com.example.just_java.controller;
+package com.just.controller;
 
 
-import com.example.just_java.common.response.JsonResult;
-import com.example.just_java.common.response.ResponseDTO;
-import com.example.just_java.domain.QueryDTO;
-import com.example.just_java.domain.TableDomain;
-import com.example.just_java.service.TableService;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import com.just.common.response.JsonResult;
+import com.just.domain.QueryDTO;
+import com.just.domain.TableDomain;
+import com.just.service.TableService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.example.just_java;
+package com.just;
 
-import com.example.just_java.config.CorsConfig;
+import com.just.config.CorsConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

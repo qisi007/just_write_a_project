@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.just_java.mapper.TableMapper">
-    <select id="findAll" resultType="com.example.just_java.domain.TableDomain">
+<mapper namespace="com.just.mapper.TableMapper">
+    <select id="findAll" resultType="com.just.domain.TableDomain">
         select * from hero
         <where>
             <if test="queryDTO.name != null and queryDTO.name != ''">
@@ -10,7 +10,7 @@
         </where>
     </select>
 
-    <insert id="addData" parameterType="com.example.just_java.domain.TableDomain">
+    <insert id="addData" parameterType="com.just.domain.TableDomain">
         INSERT INTO hero(id, name, attribute, position, talent, q, w, e, r, skin)
         VALUES (#{tableDomain.id},#{tableDomain.name},#{tableDomain.attribute},#{tableDomain.position},#{tableDomain.talent},#{tableDomain.q},#{tableDomain.w},#{tableDomain.e},#{tableDomain.r},#{tableDomain.skin})
     </insert>
@@ -23,7 +23,7 @@
             </if>
     </delete>
 
-    <update id="updateData" parameterType="com.example.just_java.domain.TableDomain">
+    <update id="updateData" parameterType="com.just.domain.TableDomain">
         UPDATE hero
         <set>
             name=#{tableDomain.name},

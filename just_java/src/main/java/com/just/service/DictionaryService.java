@@ -1,7 +1,7 @@
-package com.example.just_java.service;
+package com.just.service;
 
-import com.example.just_java.domain.DictionaryDomain;
-import com.example.just_java.mapper.DictionaryMapper;
+import com.just.domain.DictionaryDomain;
+import com.just.mapper.DictionaryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,8 @@
-package com.example.just_java.common.response;
+package com.just.common.response;
 
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 

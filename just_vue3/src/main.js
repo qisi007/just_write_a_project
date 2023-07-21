@@ -8,11 +8,12 @@ import locale from 'element-plus/lib/locale/lang/zh-cn'
 const app = createApp(App)
 
 import * as ElIcon from '@element-plus/icons-vue'
-for (let iconName in ElIcon){
+for (let iconName in ElIcon) {
     app.component(iconName, ElIcon[iconName])
 }
 import "./assets/fonts/icon.css"
 
 app.config.warnHandler = () => null;
 
-app.use(ElementPlus,  { size: 'medium', locale }).use(router).mount('#app')
+
+app.use(ElementPlus, { size: 'medium', locale }).use(router).mount('#app')

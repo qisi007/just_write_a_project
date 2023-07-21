@@ -1,4 +1,4 @@
-package com.example.just_java.config;
+package com.just.config;
 
 
 import org.assertj.core.internal.Predicates;

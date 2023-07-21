@@ -1,4 +1,4 @@
-package com.example.just_java.config;
+package com.just.config;
 import org.springframework.context.annotation.Configuration;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;

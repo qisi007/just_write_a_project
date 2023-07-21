@@ -1,7 +1,7 @@
-package com.example.just_java.mapper;
+package com.just.mapper;
 
-import com.example.just_java.domain.QueryDTO;
-import com.example.just_java.domain.TableDomain;
+import com.just.domain.QueryDTO;
+import com.just.domain.TableDomain;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.example.just_java.common.response;
+package com.just.common.response;
 
 public class ResponseDTO<T> {
 

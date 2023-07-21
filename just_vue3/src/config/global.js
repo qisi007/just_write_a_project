@@ -10,6 +10,6 @@ export default {
             development: 'http://localhost:10010',
             production: ''
         },
-        timeout: 6000
+        timeout: 60000
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div class="login" id="login">
         <div class="login-form">
             <div class="title">用户登录</div>
               <el-form
@@ -27,6 +27,29 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { useRouter } from 'vue-router'
+
+
+import dayjs from "dayjs"
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
+
+onMounted(() => {
+
+
+
+
+
+})
+
+
+
+let a = dayjs().format()
+console.log(123123,a)
+
+let runDate = '20240229'
+let b = dayjs(runDate).add(3,"year").format()
+
+console.log(b)
+
 
 const state = reactive({
     formModel: {

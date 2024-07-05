@@ -27,7 +27,16 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { useRouter } from 'vue-router'
+const { createWorker } = require('tesseract.js');
 
+const worker = await createWorker('eng');
+
+(async () => {
+  const { data: { text } } = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
+  await worker.terminate();
+  console.log(text);
+
+})();
 
 import dayjs from "dayjs"
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';

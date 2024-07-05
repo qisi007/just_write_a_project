@@ -5,6 +5,10 @@
 
 
 export default {
+    website: {
+        title: 'JUST后台管理',
+        logo: '../assets/images/logo.png'
+    },
     axios: {
         baseURL: {
             development: 'http://localhost:10010',

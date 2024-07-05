@@ -9,7 +9,7 @@
                         height: state.isCollapse ? '45px' : '70px',
                         marginTop: state.isCollapse ? '10px' : '0px',
                     }"  alt="">
-                <p>JUST后台管理</p>
+                <p>{{globalConfig.website.title}}</p>
             </div>
             <el-menu
                 default-active="first"
@@ -82,11 +82,11 @@
                     </el-dropdown>
                 </div>
             </div>
-                <router-view style="flex: 1; margin-top: 10px"  v-slot="{ Component }">
-                    <el-collapse-transition>
-                        <component :is="Component" />
-                    </el-collapse-transition>
-                </router-view>
+            <router-view style="flex: 1; margin-top: 10px"  v-slot="{ Component }">
+                <el-collapse-transition>
+                    <component :is="Component" />
+                </el-collapse-transition>
+            </router-view>
         </div>
     </div>
 </template>
@@ -95,12 +95,7 @@
 <script setup>
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
-
-
-
-
-
-
+import globalConfig from "../config/global"
 
 
 const state = reactive({

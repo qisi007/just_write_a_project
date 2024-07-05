@@ -11,6 +11,7 @@ public class JustJavaApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(JustJavaApplication.class, args);
+        System.out.println("启动成功");
     }
 
 
